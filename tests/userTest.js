@@ -25,6 +25,7 @@ let commnetService = new commentServiceFile.CommnetsService(new commentRepoFile.
 
 function addComment() {
     commnetService.addComment("Great");
+    commnetService.addComment("Great2");
 }
 
 function readCommnet(position) {
@@ -65,3 +66,28 @@ function readProject(position) {
 
 module.exports.addProject = addProject;
 module.exports.readProject = readProject;
+
+
+let statusRepoFile = require('../Repositories/StatusRepository');
+let statusRepository = new statusRepoFile.StatusRepository();
+statusRepository.add("New");
+statusRepository.add("In Progress");
+statusRepository.add("Feedback");
+statusRepository.add("Rework");
+statusRepository.add("Resolved");
+
+let issueRepoFile = require('../Repositories/IssueRepository');
+let issueServiceFile = require('../Service/IssueService');
+let issueService = new issueServiceFile.IssueService(new issueRepoFile.IssueRepository(), userService, sprintService, commnetService, statusRepository);
+
+function addIssue() {
+    console.log(issueService.addIssueWithoutSubTasks("task", "BaseIssue01", 0, 0, 0, "Description01", 1, [0, 1], "28/02/2018", "28/02/2018"));
+    console.log(issueService.addIssueWithSubTasks("bug", "Issue01", 0, 0, 0, "Description01", 1, [0], [0, 1], "28/02/2018", "28/02/2018"));
+}
+
+function readIssue() {
+    return issueService.getIssue(1).toString();
+}
+
+module.exports.addIssue = addIssue;
+module.exports.readIssue = readIssue;

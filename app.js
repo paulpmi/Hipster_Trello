@@ -22,8 +22,9 @@ function onRequest(request, response){
     test.addProject([0]);
     console.log("Project: " + test.readProject(1));
 
-    response.write("Done");
-    response.write("Started");
+    test.addIssue();
+    response.write(test.readIssue());
+
     response.end();
 }
 
