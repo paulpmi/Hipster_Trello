@@ -20,6 +20,10 @@ class GenericRepository{
     getAll(){
         return this.repository;
     }
+
+    update(position, newVal){
+        this.repository[position] = newVal;
+    }
 }
 
 module.exports.GenericRepository = GenericRepository;

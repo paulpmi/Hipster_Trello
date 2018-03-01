@@ -24,6 +24,8 @@ function onRequest(request, response){
 
     test.addIssue();
     response.write(test.readIssue());
+    test.updateIssue();
+    response.write(test.readIssue());
 
     response.end();
 }

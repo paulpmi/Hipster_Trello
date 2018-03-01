@@ -68,13 +68,14 @@ module.exports.addProject = addProject;
 module.exports.readProject = readProject;
 
 
+let status = require('../Entitites/Status');
 let statusRepoFile = require('../Repositories/StatusRepository');
 let statusRepository = new statusRepoFile.StatusRepository();
-statusRepository.add("New");
-statusRepository.add("In Progress");
-statusRepository.add("Feedback");
-statusRepository.add("Rework");
-statusRepository.add("Resolved");
+statusRepository.add(new status.Status(0, "New"));
+statusRepository.add(new status.Status(1,"In Progress"));
+statusRepository.add(new status.Status(2,"Feedback"));
+statusRepository.add(new status.Status(3,"Rework"));
+statusRepository.add(new status.Status(4,"Resolved"));
 
 let issueRepoFile = require('../Repositories/IssueRepository');
 let issueServiceFile = require('../Service/IssueService');
@@ -86,8 +87,15 @@ function addIssue() {
 }
 
 function readIssue() {
-    return issueService.getIssue(1).toString();
+    return issueService.getIssue(0).toString();
+}
+
+function updateIssue() {
+    console.log(
+        issueService.updateIssue(0, "feature", "UpdatedBaseIssue01", 0, 0, 0, "UpdatedDescription01", 0, [], [0], "29/02/2018", "29/02/2018")
+    );
 }
 
 module.exports.addIssue = addIssue;
 module.exports.readIssue = readIssue;
+module.exports.updateIssue = updateIssue;
