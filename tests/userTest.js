@@ -76,26 +76,42 @@ statusRepository.add(new status.Status(1,"In Progress"));
 statusRepository.add(new status.Status(2,"Feedback"));
 statusRepository.add(new status.Status(3,"Rework"));
 statusRepository.add(new status.Status(4,"Resolved"));
+statusRepository.add(new status.Status(5,"Ready For Testing"));
 
 let issueRepoFile = require('../Repositories/IssueRepository');
 let issueServiceFile = require('../Service/IssueService');
 let issueService = new issueServiceFile.IssueService(new issueRepoFile.IssueRepository(), userService, sprintService, commnetService, statusRepository);
 
 function addIssue() {
-    console.log(issueService.addIssueWithoutSubTasks("task", "BaseIssue01", 0, 0, 0, "Description01", 1, [0, 1], "28/02/2018", "28/02/2018"));
-    console.log(issueService.addIssueWithSubTasks("bug", "Issue01", 0, 0, 0, "Description01", 1, [0], [0, 1], "28/02/2018", "28/02/2018"));
+    console.log(issueService.addIssueWithoutSubTasks("task", "BaseIssue01", 0, 0, 0, "Description01", 0, [0, 1], "28/02/2018", "28/02/2018"));
+    console.log(issueService.addIssueWithSubTasks("bug", "Issue01", 0, 0, 0, "Description01", 0, [0], [0, 1], "28/02/2018", "28/02/2018"));
 }
 
 function readIssue() {
-    return issueService.getIssue(0).toString();
+    //return issueService.getIssue(0).toString() + "\n" + issueService.getIssue(1).toString();
+    return "Power\n" + issueService.issueRepository.getAll();
 }
 
 function updateIssue() {
     console.log(
-        issueService.updateIssue(0, "feature", "UpdatedBaseIssue01", 0, 0, 0, "UpdatedDescription01", 0, [], [0], "29/02/2018", "29/02/2018")
+        issueService.updateIssue(0, "feature", "UpdatedBaseIssue01", 1, 0, 0, "UpdatedDescription01", 4, [], [0], "29/02/2018", "29/02/2018")
     );
 }
+
+function filterBySprint() {
+    return issueService.getIssuesBySprint(0);
+}
+
+function filterByStatus() {
+    console.log("Filter by Status: " + statusRepository.get(0).name + " " +
+        issueService.getIssuesByStatus(0)
+    );
+}
+
 
 module.exports.addIssue = addIssue;
 module.exports.readIssue = readIssue;
 module.exports.updateIssue = updateIssue;
+module.exports.filterBySprint = filterBySprint;
+module.exports.filterByStatus = filterByStatus;
+

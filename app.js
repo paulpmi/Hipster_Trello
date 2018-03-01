@@ -27,6 +27,9 @@ function onRequest(request, response){
     test.updateIssue();
     response.write(test.readIssue());
 
+    response.write("\nSprint 0:\n " + test.filterBySprint());
+    test.filterByStatus();
+
     response.end();
 }
 

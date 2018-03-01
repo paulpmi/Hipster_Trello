@@ -28,6 +28,10 @@ class IssueService{
             if (issueTaskIds.length !== 0) {
                 if (issueType !== "task") {
                     tasks = this.getTasks(issueTaskIds);
+                    if (!Array.isArray(tasks)) {
+                        console.log("ERROR IN TASKS: " + tasks);
+                        return tasks;
+                    }
                 }
                 else {
                     return "Only Features and Bugs can have subtasks"
@@ -40,7 +44,7 @@ class IssueService{
             let issueFile = require('../Entitites/Issue');
             let issue = new issueFile.Issue(this.placement, issueType, issueName, this.sprintService.getSprint(issueSprintId),
                 this.userService.getUser(issueCreatorId), this.userService.getUser(issueAssigneeId),
-            issueDescription, this.statusRepository.get(issueStatusId), tasks, comments, issueUpdate, issueCreated);
+            issueDescription, this.statusRepository.get(0), tasks, comments, issueUpdate, issueCreated);
             this.issueRepository.add(issue);
             this.placement++;
             return "IssueService: Success";
@@ -72,7 +76,7 @@ class IssueService{
             let issueFile = require('../Entitites/Issue');
             let issue = new issueFile.Issue(this.placement, issueType, issueName, this.sprintService.getSprint(issueSprintId),
                 this.userService.getUser(issueCreatorId), this.userService.getUser(issueAssigneeId),
-                issueDescription, this.statusRepository.get(issueStatusId), [], comments, issueUpdate, issueCreated);
+                issueDescription, this.statusRepository.get(0), [], comments, issueUpdate, issueCreated);
             this.issueRepository.add(issue);
             this.placement++;
             return "IssueService: Success";
@@ -97,18 +101,16 @@ class IssueService{
     getTasks(issueTaskIds){
         let tasks = [];
         for (let i = 0; i < issueTaskIds.length; i++) {
-            let issue = this.issueRepository.get(issueTaskIds[i]);
+            let issue = this.getIssue(issueTaskIds[i]);
             if (typeof issue === "undefined")
                 return "No Such subtask: " + issueTaskIds[i];
-            else if (issue.type === "task")
-                return "Tasks cannot have other tasks: " + issueTaskIds[i];
             tasks.push(issue);
         }
         return tasks;
     }
 
     updateIssue(id, type, name, sprint, createdBy, assignee, description, status, tasks, comments, updatedAt, createdAt){
-        let issue = this.issueRepository.get(id);
+        let issue = this.getIssue(id);
 
         if (type !== issue.type)
             issue.type = type;
@@ -129,17 +131,18 @@ class IssueService{
             issue.description = description;
 
         if (this.statusRepository.get(status) !== issue.status) {
-            if (this.statusRepository.get(status) === "Resolved") {
+            if (this.statusRepository.get(status).name === "Resolved") {
                 let parents = this.findParents(issue);
                 for (let i = 0; i < parents.length; i++)
                     if (this.checkParentIsCompleted(parents[i])) {
-                        parents[i].status = "Ready For Testing";
+                        parents[i].status = this.statusRepository.get(5);
                         this.issueRepository.update(parents[i].id, parents[i]);
                     }
                 issue.status = this.statusRepository.get(status);
             }
             else {
                 issue.status = this.statusRepository.get(status);
+                this.updateParent(issue);
             }
         }
 
@@ -161,10 +164,13 @@ class IssueService{
 
 
     checkParentIsCompleted(issue){
+        let unresolved = 0;
         for (let i = 0; i < issue.tasks.length; i++)
             if (issue.tasks[i] !== "Resolved" && issue.tasks[i] !== "Ready For Testing")
-                return false;
-        return true;
+                unresolved += 1;
+        if (unresolved < 2)
+            return true;
+        return false;
     }
 
     updateParent(issue){
@@ -184,8 +190,9 @@ class IssueService{
         return result;
     }
 
-    getIssuesBySprint(sprint){
+    getIssuesBySprint(sprintId){
         let result = [];
+        let sprint = this.sprintService.getSprint(sprintId);
         let repo = this.issueRepository.getAll();
         for(let i = 0; i < repo.length; i++)
             if (repo[i].sprint === sprint)
@@ -193,8 +200,9 @@ class IssueService{
         return result;
     }
 
-    getIssuesByStatus(status){
+    getIssuesByStatus(statusId){
         let result = [];
+        let status = this.statusRepository.get(statusId);
         let repo = this.issueRepository.getAll();
         for(let i = 0; i < repo.length; i++)
             if (repo[i].status === status)
