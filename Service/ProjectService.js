@@ -7,19 +7,19 @@
 class ProjectService{
 
     constructor(projectRepository, sprintService){
-        this.placement = 0;
+        this.placementIssue = 0;
         this.projectRepository = projectRepository;
-        this.sprintService = sprintService;
+        this.sprintRepository = sprintService;
     }
 
     addProject(sprintIds){
         if (!Array.isArray(sprintIds))
             return "Not a valid list of Ids";
-        console.log(this.sprintService.getAll());
+        console.log(this.sprintRepository.getAll());
 
         let sprints = [];
         for (let i = 0; i < sprintIds.length; i++) {
-            let sprint = this.sprintService.getAll().filter((sprint) => {
+            let sprint = this.sprintRepository.getAll().filter((sprint) => {
                 return sprint.id === sprintIds[i]
             });
             if (typeof sprint === "undefined")
@@ -29,10 +29,10 @@ class ProjectService{
         }
 
         let project = require('../Entitites/Project');
-        let p = new project.Project(this.placement, sprints);
+        let p = new project.Project(this.placementIssue, sprints);
 
-        this.projectRepository.add(this.placement, p);
-        this.placement++;
+        this.projectRepository.add(this.placementIssue, p);
+        this.placementIssue++;
     }
 
     getProject(position){

@@ -10,12 +10,6 @@ function onRequest(request, response){
     test.addCommnet();
     response.write(test.readComment(0).name);
 
-    test.addSprint();
-    response.write(test.readSprint(0).name);
-
-    test.addSprint();
-    response.write(test.readSprint(0).name);
-
     test.addProject([0]);
     console.log("Project: " + test.readProject(0));
 
@@ -23,11 +17,20 @@ function onRequest(request, response){
     console.log("Project: " + test.readProject(1));
 
     test.addIssue();
-    response.write(test.readIssue());
-    test.updateIssue();
+
+    test.addSprint("Sprint 1");
+    //response.write(test.readSprint(0).name);
+
     response.write(test.readIssue());
 
-    response.write("\nSprint 0:\n " + test.filterBySprint());
+    test.updateIssue();
+
+    test.addSprint("Sprint 2");
+    response.write(test.readSprint(0).name);
+
+    response.write(test.readIssue());
+
+    response.write("\nSprint 2:\n " + test.filterBySprint());
     test.filterByStatus();
 
     response.end();

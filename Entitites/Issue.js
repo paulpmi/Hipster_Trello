@@ -21,7 +21,10 @@ Issue.prototype.toString = function () {
     let str = "\n";
     str += "Type: " + this.type + "\n";
     str += "Name: " + this.name + "\n";
-    str += "Sprint: " + this.sprint.name + "\n";
+    try {
+        str += "Sprint: " + this.sprint.name + "\n";
+    }
+    catch (e) { str += "Sprint: " + this.sprint + "\n"; }
     str += "Creator: " + this.creator.name + "\n";
     str += "Assignee: " + this.assignee.name + "\n";
     str += "Description: " + this.description + "\n";

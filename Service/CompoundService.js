@@ -1,25 +1,55 @@
 "use strict";
 
-class IssueService{
+class CompoundService{
 
-    constructor(issueRepository, userService, sprintService, commentService, statusRepository){
+    constructor(issueRepository, userService, sprintRepository, commentService, statusRepository){
         this.placementIssue = 0;
+        this.placementSprint = 0;
         this.issueRepository = issueRepository;
         this.userService = userService;
-        this.sprintRepository = sprintService;
+        this.sprintRepository = sprintRepository;
         this.statusRepository = statusRepository;
         this.commentService = commentService;
     }
 
+    addSprint(sprintName){
+        if (typeof sprintName === "string") {
+            let sprint = require('../Entitites/Sprint');
+            let s = new sprint.Sprint(this.placementSprint, sprintName);
+            this.sprintRepository.add(s);
+            this.placementSprint++;
+
+            console.log("HERE: " + this.issueRepository.getAll().length);
+            for (let i = 0; i < this.issueRepository.getAll().length; i++) {
+                console.log("HERE: " + this.issueRepository.get(i).sprint + " vs " + sprintName);
+                if (this.issueRepository.get(i).sprint === sprintName) {
+                    console.log("GOT UNEXISTENT SPRINT");
+                    this.issueRepository.get(i).sprint = s;
+                    this.issueRepository.update(this.issueRepository.get(i).id, this.issueRepository.get(i));
+                }
+            }
+
+            return this.placementSprint - 1;
+        }
+        else
+            return "Sprint Name is not a string";
+    }
+
+    getSprint(position){
+        return this.sprintRepository.get(position);
+    }
+
+    getAllSprints(){
+        return this.sprintRepository.getAll();
+    }
+
     addIssueWithSubTasks(issueType, issueName, issueSprintId, issueCreatorId, issueAssigneeId, issueDescription,
-             issueStatusId, issueTaskIds, issueCommentIds, issueUpdate, issueCreated){
+                         issueStatusId, issueTaskIds, issueCommentIds, issueUpdate, issueCreated){
         if (typeof issueType == "string" && typeof issueName == "string" && typeof issueDescription == "string"){
 
             let tasks = [];
             let comments = [];
 
-            if (typeof this.sprintRepository.getSprint(issueSprintId) === "undefined")
-                return "No Sprint exists with id: " + issueSprintId;
             if ( typeof this.userService.getUser(issueCreatorId) === "undefined")
                 return "No such creator: " + issueSprintId;
             if (typeof this.userService.getUser(issueAssigneeId) === "undefined")
@@ -34,7 +64,7 @@ class IssueService{
                     }
                 }
                 else {
-                    return "Only Features and Bugs can have subtasks"
+                    return "Only Features and Bugs can have subtasks";
                 }
             }
 
@@ -42,31 +72,29 @@ class IssueService{
                 comments = this.getComments(issueCommentIds);
 
             let sprint = null;
-            if (typeof this.sprintRepository.getSprint(issueSprintId) === "undefined")
+            if (typeof this.sprintRepository.get(issueSprintId) === "undefined")
                 sprint = issueSprintId;
             else
-                sprint = this.sprintRepository.getSprint(issueSprintId);
+                sprint = this.sprintRepository.get(issueSprintId);
 
             let issueFile = require('../Entitites/Issue');
             let issue = new issueFile.Issue(this.placementIssue, issueType, issueName, sprint,
                 this.userService.getUser(issueCreatorId), this.userService.getUser(issueAssigneeId),
-            issueDescription, this.statusRepository.get(0), tasks, comments, issueUpdate, issueCreated);
+                issueDescription, this.statusRepository.get(0), tasks, comments, issueUpdate, issueCreated);
             this.issueRepository.add(issue);
             this.placementIssue++;
             return "IssueService: Success";
         }
     }
 
-    addIssueWithoutSubTasks(issueType, issueName, issueSprintId, issueCreatorId, issueAssigneeId, issueDescription,
-                         issueStatusId, issueCommentIds, issueUpdate, issueCreated){
+    addIssueWithoutSubTasks(issueType, issueName, issueSprintName, issueCreatorId, issueAssigneeId, issueDescription,
+                            issueStatusId, issueCommentIds, issueUpdate, issueCreated){
         if (typeof issueType == "string" && typeof issueName == "string" && typeof issueDescription == "string"){
 
             let comments = [];
 
-            if (typeof this.sprintRepository.getSprint(issueSprintId) === "undefined")
-                return "No Sprint exists with id: " + issueSprintId;
             if ( typeof this.userService.getUser(issueCreatorId) === "undefined")
-                return "No such creator: " + issueSprintId;
+                return "No such creator: " + issueCreatorId;
             if (typeof this.userService.getUser(issueAssigneeId) === "undefined")
                 return "No such assignee: " + issueAssigneeId;
 
@@ -77,13 +105,13 @@ class IssueService{
                 comments.push(comment);
             }
 
-            console.log("SPRINT: ", this.sprintRepository.getSprint(issueSprintId));
+            console.log("SPRINT: ", this.sprintRepository.getByValue(issueSprintName));
 
             let sprint = null;
-            if (typeof this.sprintRepository.getSprint(issueSprintId) === "undefined")
-                sprint = issueSprintId;
+            if (this.sprintRepository.getByValue(issueSprintName) === null)
+                sprint = issueSprintName;
             else
-                sprint = this.sprintRepository.getSprint(issueSprintId);
+                sprint = this.sprintRepository.getByValue(issueSprintName);
 
             let issueFile = require('../Entitites/Issue');
             let issue = new issueFile.Issue(this.placementIssue, issueType, issueName, sprint,
@@ -129,18 +157,6 @@ class IssueService{
         if (name !== issue.name)
             issue.name = name;
 
-        let sprint = null;
-        if (typeof this.sprintRepository.getSprint(sprint) === "undefined")
-            issue.sprint = sprint;
-        else
-            if (this.sprintRepository.getSprint(sprint) !== issue.sprint) {
-                issue.sprint = this.sprintRepository.getSprint(sprint);
-                for (let i = 0; i < issue.tasks.length; i++) {
-                    issue.tasks[i].sprint = this.sprintRepository.getSprint(sprint);
-                    this.issueRepository.update(issue.tasks[i].id, issue.tasks[i]);
-                }
-            }
-
         if (this.userService.getUser(createdBy) !== issue.creator)
             issue.creator = this.userService.getUser(createdBy);
         if (this.userService.getUser(assignee) !== issue.assignee)
@@ -168,6 +184,24 @@ class IssueService{
         if (actualTasks !== issue.tasks)
             issue.tasks = actualTasks;
 
+        if (this.sprintRepository.getByValue(sprint) !== issue.sprint && this.sprintRepository.getByValue(sprint) !== null) {
+            issue.sprint = this.sprintRepository.getByValue(sprint);
+            for (let i = 0; i < issue.tasks.length; i++) {
+                issue.tasks[i].sprint = this.sprintRepository.getByValue(sprint);
+                this.issueRepository.update(issue.tasks[i].id, issue.tasks[i]);
+            }
+        }
+        else{
+            console.log("ENTERED SECOND " + sprint);
+            issue.sprint = sprint;
+            console.log("\nNewPart: " + issue.sprint);
+            for (let i = 0; i < issue.tasks.length; i++) {
+                issue.tasks[i].sprint = sprint;
+                this.issueRepository.update(issue.tasks[i].id, issue.tasks[i]);
+                console.log("\nNewPart2: " + this.issueRepository.get(issue.tasks[i].id));
+            }
+        }
+
         let actualComments = this.getComments(comments);
         if (actualComments !== issue.comments)
             issue.comments = actualComments;
@@ -178,6 +212,7 @@ class IssueService{
             issue.createdAt = createdAt;
 
         this.issueRepository.update(issue.id, issue);
+        console.log("\nNewPart2: " + this.issueRepository.get(issue.id).sprint);
     }
 
 
@@ -210,7 +245,7 @@ class IssueService{
 
     getIssuesBySprint(sprintId){
         let result = [];
-        let sprint = this.sprintRepository.getSprint(sprintId);
+        let sprint = this.sprintRepository.get(sprintId);
         let repo = this.issueRepository.getAll();
         for(let i = 0; i < repo.length; i++)
             if (repo[i].sprint === sprint)
@@ -233,4 +268,4 @@ class IssueService{
     }
 }
 
-module.exports.IssueService = IssueService;
+module.exports.CompundService = CompoundService;

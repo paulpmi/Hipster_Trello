@@ -21,8 +21,19 @@ class GenericRepository{
         return this.repository;
     }
 
+    getByValue(value){
+        for (let i = 0; i < this.repository.length; i++)
+            if (this.repository[i] === value)
+                return this.repository[i];
+        return null;
+    }
+
     update(position, newVal){
         this.repository[position] = newVal;
+    }
+
+    delete(position){
+        delete this.repository[position];
     }
 }
 

@@ -7,16 +7,16 @@
 class CommentsService{
 
     constructor(commnetsRepository){
-        this.placement = 0;
+        this.placementIssue = 0;
         this.commentsRepository = commnetsRepository;
     }
 
     addComment(commentName){
         if (typeof commentName == "string"){
             let comment = require('../Entitites/Comments');
-            let c = new comment.Comments(this.placement, commentName);
+            let c = new comment.Comments(this.placementIssue, commentName);
             this.commentsRepository.add(c);
-            this.placement++;
+            this.placementIssue++;
         }
     }
 

@@ -3,7 +3,7 @@
 class UserService{
 
     constructor(userRepository){
-        this.placement = 0;
+        this.placementIssue = 0;
         //this.userRepository = require('../Repositories/UserRepository');
         //this.userRepository = new this.userRepository.UserRepository();
         this.userRepository = userRepository;
@@ -12,9 +12,9 @@ class UserService{
     addUser(userName){
         if (typeof userName == "string"){
             let user = require('../Entitites/User');
-            let u = new user.User(this.placement, userName);
+            let u = new user.User(this.placementIssue, userName);
             this.userRepository.add(u);
-            this.placement++;
+            this.placementIssue++;
         }
     }
 

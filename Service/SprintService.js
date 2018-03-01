@@ -10,19 +10,20 @@
 class SprintService{
 
     constructor(sprintRepository){
-        this.placement = 0;
-        //this.userRepository = require('../Repositories/UserRepository');
-        //this.userRepository = new this.userRepository.UserRepository();
+        this.placementIssue = 0;
         this.sprintRepository = sprintRepository;
     }
 
     addSprint(sprintName){
         if (typeof sprintName == "string"){
             let sprint = require('../Entitites/Sprint');
-            let s = new sprint.Sprint(this.placement, sprintName);
+            let s = new sprint.Sprint(this.placementIssue, sprintName);
             this.sprintRepository.add(s);
-            this.placement++;
+            this.placementIssue++;
+            return this.placementIssue-1;
         }
+        else
+            return "SprintName is not a string";
     }
 
     getSprint(position){
