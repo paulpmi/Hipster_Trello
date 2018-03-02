@@ -9,17 +9,17 @@ class ProjectService{
     constructor(projectRepository, sprintService){
         this.placementIssue = 0;
         this.projectRepository = projectRepository;
-        this.sprintRepository = sprintService;
+        this.sprintService = sprintService;
     }
 
     addProject(sprintIds){
         if (!Array.isArray(sprintIds))
             return "Not a valid list of Ids";
-        console.log(this.sprintRepository.getAll());
+        console.log(this.sprintService.getAllSprints());
 
         let sprints = [];
         for (let i = 0; i < sprintIds.length; i++) {
-            let sprint = this.sprintRepository.getAll().filter((sprint) => {
+            let sprint = this.sprintService.getAllSprints().filter((sprint) => {
                 return sprint.id === sprintIds[i]
             });
             if (typeof sprint === "undefined")

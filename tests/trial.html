@@ -1,0 +1,118 @@
+<div id="result">
+    <div>Project: <%= project %></div>
+
+    <div id="currentSelectVariable">Sprint <%= currentSelect %> :</div>
+
+    <select id="selectSprint" onclick="checkSelect()">
+        <% for(var i=0; i<compoundService.getAllSprints().length; i++) {%>
+        <option id="sprint" ><%= compoundService.getAllSprints()[i].id %>.<%= compoundService.getAllSprints()[i].name %></option>
+        <%}%>
+    </select>
+
+    <div>
+        This Sprint has: <%= compoundService.getIssuesBySprint(currentSelect).length %> tasks
+        <ul>
+            <% for(var j=0; j<compoundService.getIssuesBySprint(currentSelect).length; j++){ %>
+            <li><%- compoundService.getIssuesBySprint(currentSelect)[j] %> </li>
+            <%}%>
+        </ul>
+    </div>
+
+    <div>
+        <form name="myForm" method="post">
+            Type: <select id="type">
+            <option> task </option>
+            <option> feature </option>
+            <option> bug </option>
+            </select></br>
+            Name: <input id="name"/></br>
+            Sprint (doesn't need to exist yet): <input id="sprintIssue"/> </br>
+
+            Creator: <select id="creator">
+            <% for(var i=0; i<userService.getAll().length; i++) {%>
+            <option> <%= userService.getAll()[i].id %>.<%= userService.getAll()[i].name %> </option>
+            <%}%>
+            </select> </br>
+
+            Assignee: <select id="assignee">
+            <% for(var i=0; i<userService.getAll().length; i++) {%>
+            <option><%= userService.getAll()[i].id %>.<%= userService.getAll()[i].name %> </option>
+            <%}%>
+            </select></br>
+            Description: <input id="description"/></br>
+            Tasks: <select id="tasks">
+            <option> NoParent </option>
+            <% for(var j=0; j<compoundService.getAllIssues().length; j++){ %>
+            <option><%- compoundService.getAllIssues()[j].id %>.<%- compoundService.getAllIssues()[j].name %> </option>
+            <%}%>
+            </select> </br>
+            Comments: <select multiple id="comments">
+            <% for(var j=0; j<commentService.getAll().length; j++){ %>
+            <option><%- commentService.getAll()[j].id %>.<%- commentService.getAll()[j].name %> </option>
+            <%}%>
+        </select>
+            <button onclick="sendIssue()">
+                AddIssue
+            </button>
+
+        </form>
+    </div>
+
+</div>
+
+<script>
+    var click = 0;
+    function checkSelect() {
+
+        click++;
+        if (click == 2) {
+            var currentSelect2 = document.getElementById("selectSprint");
+            console.log(currentSelect2.options[currentSelect2.selectedIndex].value.split('.')[0]);
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("result").innerHTML = xmlhttp.responseText;
+                }
+            };
+            xmlhttp.open("POST", "", true);
+            xmlhttp.send(currentSelect2.options[currentSelect2.selectedIndex].value.split('.')[0]);
+            click = 0;
+        }
+    }
+    
+    function sendIssue() {
+        var issueType = document.forms["myForm"]["type"].value;
+        var issueName = document.forms["myForm"]["name"].value;
+        var issueSprint = document.forms["myForm"]["sprintIssue"].value;
+        var issueCreator = document.forms["myForm"]["creator"].value;
+        var issueAssignee = document.forms["myForm"]["assignee"].value;
+        var issueDescription = document.forms["myForm"]["description"].value;
+        var issueComments = document.forms["myForm"]["comments"].value;
+        var issueTasks = document.forms["myForm"]["tasks"].value;
+
+        var currentSelect2 = document.getElementById("selectSprint");
+        var position = currentSelect2.options[currentSelect2.selectedIndex].value.split('.')[0];
+
+        console.log(issueSprint);
+
+        if (issueTasks == "NoParent"){
+            var formData = position + "&" + "postIssueNoTasks" + "&" + issueType + "&" + issueName + "&" + issueSprint + "&"
+                + issueCreator.split('.')[0] + "&" + issueAssignee.split('.')[0] + "&" + issueDescription + "&" + issueComments.split('.')[0];
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", "", true);
+            xmlhttp.send(formData);
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("result").innerHTML = xmlhttp.responseText;
+                }
+            };
+        }
+
+
+        //var formdata = a+"&"+b ;
+
+    }
+</script>
+

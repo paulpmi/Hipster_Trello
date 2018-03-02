@@ -72,8 +72,7 @@ function addIssue() {
 }
 
 function readIssue() {
-    //return issueService.getIssue(0).toString() + "\n" + issueService.getIssue(1).toString();
-    return "Power\n" + compountService.issueRepository.getAll();
+    return "Power\n</br>" + compountService.issueRepository.getAll();
 }
 
 function updateIssue() {
@@ -82,8 +81,8 @@ function updateIssue() {
     );
 }
 
-function filterBySprint() {
-    return compountService.getIssuesBySprint(1);
+function filterBySprint(sprintId) {
+    return compountService.getIssuesBySprint(sprintId);
 }
 
 function filterByStatus() {
@@ -100,15 +99,21 @@ function readSprint(position) {
     return compountService.getSprint(position);
 }
 
-function testSprint() {
+function getAllSprint() {
+    return compountService.getAllSprints();
 }
 
+function getAllIssues() {
+    return compountService.getAllIssues();
+}
 
 module.exports.addIssue = addIssue;
 module.exports.readIssue = readIssue;
 module.exports.updateIssue = updateIssue;
 module.exports.filterBySprint = filterBySprint;
 module.exports.filterByStatus = filterByStatus;
+module.exports.getAllSprints = getAllSprint;
+module.exports.getAllIssues = getAllIssues;
 
 
 let projectRepoFile = require('../Repositories/ProjectRepository');

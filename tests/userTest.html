@@ -1,7 +1,39 @@
+<!doctype html>
+<html lang="en">
 <head>
-    <script src="userTest.js" type="module"></script>
+    <meta charset="UTF-8">
+    <title>Form Calculator Add Example</title>
 </head>
 <body>
-    <script src="userTest.js" type="module"></script>
-    <button onclick="addUser()" #hello> add </button>
+<form name="myForm" action="" onsubmit="return ajax();" method='post'>
+    <input type="text" name="A"> +
+    <input type="text" name="B"> =
+    <span id="result"></span>
+    <br>
+    <input type="submit" value="Submit">
+
+    <span id="Data"></span><br>
+
+</form>
+<script>
+function ajax(){
+      var a = document.forms["myForm"]["A"].value;
+      var b = document.forms["myForm"]["B"].value;
+      var formdata = "A="+a+"&B="+b;
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange=function(){
+        if(xmlhttp.readyState==4 && xmlhttp.status==200){
+          document.getElementById("result").innerHTML=xmlhttp.responseText;
+        }
+      };
+      xmlhttp.open("POST","",true);
+      xmlhttp.send(formdata);
+      return false;
+}
+
+window.onload = function() {
+    document.getElementById("Data").innerHTML=xmlhttp.responseText;
+};
+</script>
 </body>
+</html>

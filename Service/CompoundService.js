@@ -7,7 +7,7 @@ class CompoundService{
         this.placementSprint = 0;
         this.issueRepository = issueRepository;
         this.userService = userService;
-        this.sprintRepository = sprintRepository;
+        this.sprintService = sprintRepository;
         this.statusRepository = statusRepository;
         this.commentService = commentService;
     }
@@ -16,7 +16,7 @@ class CompoundService{
         if (typeof sprintName === "string") {
             let sprint = require('../Entitites/Sprint');
             let s = new sprint.Sprint(this.placementSprint, sprintName);
-            this.sprintRepository.add(s);
+            this.sprintService.add(s);
             this.placementSprint++;
 
             console.log("HERE: " + this.issueRepository.getAll().length);
@@ -36,11 +36,11 @@ class CompoundService{
     }
 
     getSprint(position){
-        return this.sprintRepository.get(position);
+        return this.sprintService.get(position);
     }
 
     getAllSprints(){
-        return this.sprintRepository.getAll();
+        return this.sprintService.getAll();
     }
 
     addIssueWithSubTasks(issueType, issueName, issueSprintId, issueCreatorId, issueAssigneeId, issueDescription,
@@ -72,10 +72,10 @@ class CompoundService{
                 comments = this.getComments(issueCommentIds);
 
             let sprint = null;
-            if (typeof this.sprintRepository.get(issueSprintId) === "undefined")
+            if (typeof this.sprintService.get(issueSprintId) === "undefined")
                 sprint = issueSprintId;
             else
-                sprint = this.sprintRepository.get(issueSprintId);
+                sprint = this.sprintService.get(issueSprintId);
 
             let issueFile = require('../Entitites/Issue');
             let issue = new issueFile.Issue(this.placementIssue, issueType, issueName, sprint,
@@ -105,13 +105,13 @@ class CompoundService{
                 comments.push(comment);
             }
 
-            console.log("SPRINT: ", this.sprintRepository.getByValue(issueSprintName));
+            console.log("SPRINT: ", this.sprintService.getByValue(issueSprintName));
 
-            let sprint = null;
-            if (this.sprintRepository.getByValue(issueSprintName) === null)
-                sprint = issueSprintName;
-            else
-                sprint = this.sprintRepository.getByValue(issueSprintName);
+            let sprint = issueSprintName;
+            if (this.sprintService.getByValue(issueSprintName) != null)
+                sprint = this.sprintService.get(issueSprintName.split(" ")[1]);
+
+            console.log("SPRINT: " + sprint);
 
             let issueFile = require('../Entitites/Issue');
             let issue = new issueFile.Issue(this.placementIssue, issueType, issueName, sprint,
@@ -119,7 +119,7 @@ class CompoundService{
                 issueDescription, this.statusRepository.get(0), [], comments, issueUpdate, issueCreated);
             this.issueRepository.add(issue);
             this.placementIssue++;
-            return "IssueService: Success";
+            return "IssueService: Success " + issue;
         }
     }
 
@@ -184,10 +184,10 @@ class CompoundService{
         if (actualTasks !== issue.tasks)
             issue.tasks = actualTasks;
 
-        if (this.sprintRepository.getByValue(sprint) !== issue.sprint && this.sprintRepository.getByValue(sprint) !== null) {
-            issue.sprint = this.sprintRepository.getByValue(sprint);
+        if (this.sprintService.getByValue(sprint) !== issue.sprint && this.sprintService.getByValue(sprint) !== null) {
+            issue.sprint = this.sprintService.getByValue(sprint);
             for (let i = 0; i < issue.tasks.length; i++) {
-                issue.tasks[i].sprint = this.sprintRepository.getByValue(sprint);
+                issue.tasks[i].sprint = this.sprintService.getByValue(sprint);
                 this.issueRepository.update(issue.tasks[i].id, issue.tasks[i]);
             }
         }
@@ -245,7 +245,7 @@ class CompoundService{
 
     getIssuesBySprint(sprintId){
         let result = [];
-        let sprint = this.sprintRepository.get(sprintId);
+        let sprint = this.sprintService.get(sprintId);
         let repo = this.issueRepository.getAll();
         for(let i = 0; i < repo.length; i++)
             if (repo[i].sprint === sprint)
@@ -263,7 +263,7 @@ class CompoundService{
         return result;
     }
 
-    getAll(){
+    getAllIssues(){
         return this.issueRepository.getAll();
     }
 }

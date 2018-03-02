@@ -21,6 +21,10 @@ class UserService{
     getUser(position){
         return this.userRepository.get(position);
     }
+
+    getAll(){
+        return this.userRepository.getAll();
+    }
 }
 
 module.exports.UserService = UserService;

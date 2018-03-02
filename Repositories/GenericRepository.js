@@ -23,7 +23,7 @@ class GenericRepository{
 
     getByValue(value){
         for (let i = 0; i < this.repository.length; i++)
-            if (this.repository[i] === value)
+            if (this.repository[i] == value)
                 return this.repository[i];
         return null;
     }

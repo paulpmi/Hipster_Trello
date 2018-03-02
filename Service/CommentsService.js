@@ -23,6 +23,10 @@ class CommentsService{
     getComment(position){
         return this.commentsRepository.get(position);
     }
+
+    getAll(){
+        return this.commentsRepository.getAll();
+    }
 }
 
 module.exports.CommnetsService = CommentsService;
