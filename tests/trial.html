@@ -26,7 +26,7 @@
             <option> bug </option>
             </select></br>
             Name: <input id="name"/></br>
-            Sprint (doesn't need to exist yet): <input id="sprintIssue"/> </br>
+            Sprint (doesn't really need to exist yet): <input id="sprintIssue"/> </br>
 
             Creator: <select id="creator">
             <% for(var i=0; i<userService.getAll().length; i++) {%>
@@ -55,6 +55,13 @@
                 AddIssue
             </button>
 
+        </form>
+
+        <form name="sprintForm" method="post">
+            Sprint_Name: <input id="sprintName" /> </br>
+            <button onclick="sendSprint()">
+                AddIssue
+            </button>
         </form>
     </div>
 
@@ -109,10 +116,23 @@
                 }
             };
         }
+    }
 
+    function sendSprint() {
+        var issueSprint = document.forms["sprintForm"]["sprintName"].value;
 
-        //var formdata = a+"&"+b ;
+        var currentSelect2 = document.getElementById("selectSprint");
+        var position = currentSelect2.options[currentSelect2.selectedIndex].value.split('.')[0];
+        var formData = position + "&" + "postSprint" + "&" + issueSprint;
 
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "", true);
+        xmlhttp.send(formData);
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("result").innerHTML = xmlhttp.responseText;
+            }
+        };
     }
 </script>
 

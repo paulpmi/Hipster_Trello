@@ -2,19 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5e4790e0-184c-4dec-8eb8-2cf8882166f3" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Service/IssueService.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Service/SprintService.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Entitites/Issue.js" afterPath="$PROJECT_DIR$/Entitites/Issue.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Entitites/Project.js" afterPath="$PROJECT_DIR$/Entitites/Project.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Repositories/GenericRepository.js" afterPath="$PROJECT_DIR$/Repositories/GenericRepository.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Service/CommentsService.js" afterPath="$PROJECT_DIR$/Service/CommentsService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Service/CompoundService.js" afterPath="$PROJECT_DIR$/Service/CompoundService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Service/ProjectService.js" afterPath="$PROJECT_DIR$/Service/ProjectService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Service/UserService.js" afterPath="$PROJECT_DIR$/Service/UserService.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/userTest.html" afterPath="$PROJECT_DIR$/tests/userTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/userTest.js" afterPath="$PROJECT_DIR$/tests/userTest.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/trial.html" afterPath="$PROJECT_DIR$/tests/trial.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -41,8 +31,8 @@
       <file leaf-file-name="trial.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/trial.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="96" column="31" lean-forward="false" selection-start-line="96" selection-start-column="31" selection-end-line="96" selection-end-column="31" />
+            <state relative-caret-position="378">
+              <caret line="124" column="96" lean-forward="false" selection-start-line="124" selection-start-column="96" selection-end-line="124" selection-end-column="96" />
               <folding />
             </state>
           </provider>
@@ -51,8 +41,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="5" column="11" lean-forward="true" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+            <state relative-caret-position="874">
+              <caret line="147" column="0" lean-forward="true" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -61,7 +51,7 @@
       <file leaf-file-name="CompoundService.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Service/CompoundService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
+            <state relative-caret-position="955">
               <caret line="110" column="71" lean-forward="true" selection-start-line="110" selection-start-column="71" selection-end-line="110" selection-end-column="71" />
               <folding />
             </state>
@@ -136,10 +126,10 @@
         <option value="$PROJECT_DIR$/Entitites/Project.js" />
         <option value="$PROJECT_DIR$/Service/UserService.js" />
         <option value="$PROJECT_DIR$/Service/CommentsService.js" />
-        <option value="$PROJECT_DIR$/tests/trial.html" />
         <option value="$PROJECT_DIR$/Repositories/GenericRepository.js" />
         <option value="$PROJECT_DIR$/Service/CompoundService.js" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/tests/trial.html" />
       </list>
     </option>
   </component>
@@ -386,12 +376,12 @@
       <workItem from="1519919945432" duration="2155000" />
       <workItem from="1519925354289" duration="2359000" />
       <workItem from="1519940881538" duration="8698000" />
-      <workItem from="1519986256305" duration="32770000" />
+      <workItem from="1519986256305" duration="33470000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84927000" />
+    <option name="totallyTimeSpent" value="85627000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -781,14 +771,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/userTest.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="25" lean-forward="false" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/ejs/lib/ejs.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
@@ -809,14 +791,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-579">
           <caret line="14" column="50" lean-forward="false" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/trial.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="96" column="31" lean-forward="false" selection-start-line="96" selection-start-column="31" selection-end-line="96" selection-end-column="31" />
           <folding />
         </state>
       </provider>
@@ -847,9 +821,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/userTest.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-168">
+          <caret line="10" column="25" lean-forward="false" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/trial.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="124" column="96" lean-forward="false" selection-start-line="124" selection-start-column="96" selection-end-line="124" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Service/CompoundService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
+        <state relative-caret-position="955">
           <caret line="110" column="71" lean-forward="true" selection-start-line="110" selection-start-column="71" selection-end-line="110" selection-end-column="71" />
           <folding />
         </state>
@@ -857,8 +847,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="5" column="11" lean-forward="true" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+        <state relative-caret-position="874">
+          <caret line="147" column="0" lean-forward="true" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
           <folding />
         </state>
       </provider>

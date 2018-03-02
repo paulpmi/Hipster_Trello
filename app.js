@@ -126,6 +126,8 @@ function onRequest(request, response){
 
                         console.log("RESPONSE: " + compountService.addIssueWithoutSubTasks(issueType, issueName, issueSprint, issueCreator,
                             issueAssignee, issueDescription, 0, [issueComments], d.getDate(), d.getDate()));
+                        compountService.addIssueWithoutSubTasks(issueType, issueName, issueSprint, issueCreator,
+                            issueAssignee, issueDescription, 0, [issueComments], d.getDate(), d.getDate())
                     }
                     if (checkMethod == "postIssue"){
                         let issueType = data[2];
@@ -140,6 +142,11 @@ function onRequest(request, response){
 
                         compountService.addIssueWithoutSubTasks(issueType, issueName, issueSprint, issueCreator,
                             issueAssignee, issueDescription, 0, issueTasks, issueComments, d.getDate(), d.getDate());
+                    }
+                    if (checkMethod == "postSprint"){
+                        let sprintName = data[2];
+
+                        compountService.addSprint(sprintName);
                     }
 
                     let fs = require('fs');
