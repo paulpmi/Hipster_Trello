@@ -66,14 +66,31 @@ function onRequest(request, response){
     let compountService = new compoundServiceFile.CompundService(new issueRepoFile.IssueRepository(),
         userService, new sprintRepoFile.SprintRepository(), commnetService, statusRepository);
 
+    // create issues
     console.log(compountService.addIssueWithoutSubTasks("task", "BaseIssue01", "Sprint 0", 0, 0, "Description01", 0, [0, 1], "28/02/2018", "28/02/2018"));
-    console.log(compountService.addIssueWithSubTasks("bug", "Issue01", "Sprint 0", 0, 0, "Description01", 0, [0], [0, 1], "28/02/2018", "28/02/2018"));
+    console.log(compountService.addIssueWithoutSubTasks("task", "BaseIssue02", "Sprint 0", 0, 0, "Description01", 0, [0, 1], "28/02/2018", "28/02/2018"));
+    console.log(compountService.addIssueWithSubTasks("bug", "Issue01", "Sprint 0", 0, 0, "Description01", 0, [0, 1], [0, 1], "28/02/2018", "28/02/2018"));
+    compountService.addIssueWithSubTasks("feature", "Issue02", "Sprint 0", 0, 0, "Description01", 0, [0], [0], "28/02/2018", "28/02/2018")
+    compountService.addIssueWithSubTasks("feature", "Issue03", "Sprint 0", 0, 0, "Description01", 0, [0], [0], "28/02/2018", "28/02/2018")
+
+    //update issues
+
+    // this will update its parent to Ready For Testing
     console.log(
         compountService.updateIssue(0, "feature", "UpdatedBaseIssue01", "Sprint 0", 0, 0, "UpdatedDescription01", 4, [0], [0], "29/02/2018", "29/02/2018")
     );
 
+    // this will update its child to Sprint 1
+    compountService.updateIssue(4, "feature", "UpdatedIssue03", "Sprint 1", 0, 0, "Used to be in Sprint 0", 4, [1], [0], "29/02/2018", "29/02/2018");
+
+
+    //compountService.updateIssue(1, "feature", "UpdatedBaseIssue02", "Sprint 1", 0, 0, "UpdatedDescription01", 4, [], [0], "29/02/2018", "29/02/2018")
+
+
     compountService.addSprint("Sprint 0");
     compountService.addSprint("Sprint 1");
+    compountService.addSprint("Sprint 2");
+    compountService.addSprint("Sprint 3");
 
     let projectRepoFile = require('./Repositories/ProjectRepository');
     let projectServiceFile = require('./Service/ProjectService');
@@ -140,7 +157,7 @@ function onRequest(request, response){
                         let issueComments = data[9];
                         let d = new Date();
 
-                        compountService.addIssueWithoutSubTasks(issueType, issueName, issueSprint, issueCreator,
+                        compountService.addIssueWithSubTasks(issueType, issueName, issueSprint, issueCreator,
                             issueAssignee, issueDescription, 0, issueTasks, issueComments, d.getDate(), d.getDate());
                     }
                     if (checkMethod == "postSprint"){
@@ -163,9 +180,6 @@ function onRequest(request, response){
                                 });
                     response.write(html);
                     response.end(html);
-
-                    //response.writeHead(200);
-                    //response.end(form);
             });
         }
 }

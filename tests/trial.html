@@ -1,5 +1,16 @@
 <div id="result">
     <div>Project: <%= project %></div>
+    <div>
+        Status:
+        <div>
+            New: <%= compoundService.getIssuesByStatus(0).length %>
+            In Progress: <%= compoundService.getIssuesByStatus(1).length %>
+            Feedback: <%= compoundService.getIssuesByStatus(2).length %>
+            Rework: <%= compoundService.getIssuesByStatus(3).length %>
+            Resolved: <%= compoundService.getIssuesByStatus(4).length %>
+            Ready For Testing: <%= compoundService.getIssuesByStatus(5).length %>
+        </div>
+    </div>
 
     <div id="currentSelectVariable">Sprint <%= currentSelect %> :</div>
 
@@ -60,7 +71,7 @@
         <form name="sprintForm" method="post">
             Sprint_Name: <input id="sprintName" /> </br>
             <button onclick="sendSprint()">
-                AddIssue
+                AddSprint
             </button>
         </form>
     </div>
