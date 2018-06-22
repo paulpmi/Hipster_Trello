@@ -1,7 +1,5 @@
-"use strict";
-
-class Sprint{
-    constructor(id, name){
+class Sprint {
+    constructor( id, name ) {
         this.id = id;
         this.name = name;
     }

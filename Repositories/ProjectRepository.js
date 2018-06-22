@@ -1,9 +1,6 @@
-"use strict";
+const { GenericRepository } = require( "./GenericRepository" );
 
-let genericRepositoryFile = require('./GenericRepository');
-let GenericRepository = genericRepositoryFile.GenericRepository;
-
-class ProjectRepository extends GenericRepository{
+class ProjectRepository extends GenericRepository {
 }
 
 

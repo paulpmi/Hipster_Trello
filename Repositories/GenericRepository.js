@@ -1,39 +1,35 @@
-/**
- * Created by paulp on 2/28/2018.
- */
-
-"use strict";
-
-class GenericRepository{
-    constructor(){
+class GenericRepository {
+    constructor() {
         this.repository = [];
     }
 
-    add(sprint){
-        this.repository.push(sprint);
+    add( sprint ) {
+        this.repository.push( sprint );
     }
 
-    get(position){
-        return this.repository[position];
+    get( position ) {
+        return this.repository[ position ];
     }
 
-    getAll(){
+    getAll() {
         return this.repository;
     }
 
-    getByValue(value){
-        for (let i = 0; i < this.repository.length; i++)
-            if (this.repository[i] == value)
-                return this.repository[i];
-        return null;
+    getByValue( value ) {
+        return this.repository.reduce( ( acc, val ) => {
+            if ( val === value ) {
+                return value;
+            }
+            return acc;
+        }, null );
     }
 
-    update(position, newVal){
-        this.repository[position] = newVal;
+    update( position, newVal ) {
+        this.repository[ position ] = newVal;
     }
 
-    delete(position){
-        delete this.repository[position];
+    delete( position ) {
+        delete this.repository[ position ];
     }
 }
 

@@ -1,7 +1,5 @@
-"use strict";
-
-class Comments{
-    constructor(id, name){
+class Comments {
+    constructor( id, name ) {
         this.id = id;
         this.name = name;
     }

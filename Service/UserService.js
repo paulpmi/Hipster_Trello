@@ -1,28 +1,24 @@
-"use strict";
+const { User } = require( "../Entitites/User" );
 
-class UserService{
-
-    constructor(userRepository){
+class UserService {
+    constructor( userRepository ) {
         this.placementIssue = 0;
-        //this.userRepository = require('../Repositories/UserRepository');
-        //this.userRepository = new this.userRepository.UserRepository();
         this.userRepository = userRepository;
     }
 
-    addUser(userName){
-        if (typeof userName == "string"){
-            let user = require('../Entitites/User');
-            let u = new user.User(this.placementIssue, userName);
-            this.userRepository.add(u);
-            this.placementIssue++;
+    addUser( userName ) {
+        if ( typeof userName === "string" ) {
+            const u = new User( this.placementIssue, userName );
+            this.userRepository.add( u );
+            this.placementIssue += 1;
         }
     }
 
-    getUser(position){
-        return this.userRepository.get(position);
+    getUser( position ) {
+        return this.userRepository.get( position );
     }
 
-    getAll(){
+    getAll() {
         return this.userRepository.getAll();
     }
 }
